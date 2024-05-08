@@ -6,6 +6,16 @@ This plugin is inspired by [lukas-reineke/headlines.nvim](https://github.com/luk
 
 ## Install
 
+Lazy:
+
+```lua
+{
+  "onurozuduru/himarkdown.nvim",
+  dependencies = "nvim-treesitter/nvim-treesitter",
+  config = true
+}
+```
+
 ## Default Configuration
 
 ```lua
@@ -51,7 +61,7 @@ This plugin is inspired by [lukas-reineke/headlines.nvim](https://github.com/luk
 ## TODOs
 
 - [ ] Add documentation
-- [ ] Add install section to `README.md`
+- [x] Add install section to `README.md`
 - [ ] Add screenshot to `README.md`
 - [ ] Clean up code
 - [ ] Add version check for Neovim 9.5
