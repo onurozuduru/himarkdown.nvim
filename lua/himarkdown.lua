@@ -76,16 +76,6 @@ local register = function(buffer)
   })
 end
 
--- TODO: Remove if not used
--- Return highlight groups in table as highest priority last
-local get_hl_groups_at_pos = function(buffer, row, col)
-  local hl_groups = {}
-  for _, element in pairs(vim_ts.get_captures_at_pos(buffer, row, col)) do
-    table.insert(hl_groups, "@" .. element.capture .. "." .. element.lang)
-  end
-  return vim.fn.reverse(hl_groups)
-end
-
 M.setup = function(config)
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
   parsed_query = parse_query(M.config.query)
@@ -131,7 +121,7 @@ M.redraw = function()
       local capture = parsed_query.captures[id]
 
       local start_row, start_column, end_row, end_column =
-        unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
+          unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
 
       local capture_config = M.config.captures[capture]
       local hl_group = prefix .. capture
