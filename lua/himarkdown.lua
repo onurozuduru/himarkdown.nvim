@@ -51,13 +51,19 @@ M.config = {
 }
 
 local parse_query = function(query)
-  if language and query and query ~= "" then return vim_ts.query.parse(language, query) end
+  if language and query and query ~= "" then
+    -- Query might not be proper since it is configurable
+    local is_ok, parsed = pcall(vim_ts.query.parse, language, query)
+    if is_ok then return parsed end
+  end
   return nil
 end
 
 local register = function(buffer)
   vim.api.nvim_clear_autocmds { group = augroup, buffer = buffer }
-  M.redraw()
+  -- Do not register autocmds if redraw fails
+  if not pcall(M.redraw) then return end
+
   vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
     buffer = buffer,
     group = augroup,
@@ -111,18 +117,21 @@ end
 -- Check and set highlights and marks on buffer
 M.redraw = function()
   if not M.enabled then return end
-
   if not parsed_query then return end
+
   M.clear()
   vim.api.nvim_set_hl_ns(M.namespace)
-  local parser = vim_ts.get_parser()
+
+  local is_ok, parser = pcall(vim_ts.get_parser, 0, language)
+  if not is_ok then return end
+
   local tree = parser:parse()
   for pattern, match, metadata in parsed_query:iter_matches(tree[1]:root(), 0) do
     for id, node in pairs(match) do
       local capture = parsed_query.captures[id]
 
       local start_row, start_column, end_row, end_column =
-          unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
+        unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
 
       local capture_config = M.config.captures[capture]
       local hl_group = prefix .. capture
