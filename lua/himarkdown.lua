@@ -94,9 +94,9 @@ end
 
 --- Setup function to be run by user. Adds autocmd and sets up highlight groups.
 ---@param config table: Configuration.
----@filed query string: query to be parsed.
----@filed captures table: each key defines what highlight options and mark to use for the matching capture.
----@filed enabled boolean: defines if himarkdown should be enabled by default.
+---@field query string: Query to be parsed.
+---@field captures table: Keys: highlight, mark, repeat_mark. Each key defines what highlight options and mark to use for the matching capture.
+---@field enabled boolean: Defines if himarkdown should be enabled by default.
 M.setup = function(config)
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
   parsed_query = parse_query(M.config.query)
