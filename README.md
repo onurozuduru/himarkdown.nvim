@@ -93,10 +93,10 @@ require('himarkdown').setup({
 
 ## TODOs
 
-- [ ] Add documentation
+- [x] Add documentation
 - [x] Add install section to `README.md`
 - [x] Add screenshot to `README.md`
-- [ ] Clean up code
+- [x] Clean up code
 - [ ] Add version check for Neovim 0.9.5
 - [ ] Add tests
 - [ ] Add Github actions to run tests
