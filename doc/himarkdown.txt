@@ -1,1 +1,44 @@
+================================================================================
+INTRODUCTION                                                   *himarkdown.nvim*
 
+Himarkdown.nvim is a plugin to decorate headers, dash, code block and quote on
+markdown file. It adds highlights and changes markings on buffer. It depends on
+'nvim-treesitter/nvim-treesitter'.
+
+The plugin logic is as simple as possible. The 'query' and 'captures' are two
+keys in config that has strong relation. The 'query' is a treesitter query that
+captures needed parts. Names of captures in the query should match with the
+keys of 'captures'. Basically this plugin goes through 'captures' then creates
+highlight groups named with prefix the "Himarkdown" followed by the each keys
+of 'captures'. Afterwards it links captured elements by from 'query' to related
+highlight definition under each key of 'captures'. If 'mark' exists then it
+places the mark and if 'repeat_mark' is provided, it repeats the 'mark' that
+many times.
+
+M.setup({config})                                                  *M.setup()*
+    Setup function to be run by user. Adds autocmd and sets up highlight
+    groups.
+
+
+    Parameters: ~
+        {config} (table)  Configuration.
+
+
+M.clear()                                                          *M.clear()*
+    Clear namespace.
+
+
+
+M.toggle()                                                        *M.toggle()*
+    Disable or enable highlights and marks. It first clears then based on
+    enable status redraws.
+
+
+
+M.redraw()                                                        *M.redraw()*
+    Check and set highlights and marks on buffer by setting extmarks.
+
+
+
+
+ vim:tw=78:ts=8:ft=help:norl:
