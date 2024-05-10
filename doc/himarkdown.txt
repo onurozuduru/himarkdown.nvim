@@ -23,6 +23,14 @@ M.setup({config})                                                  *M.setup()*
     Parameters: ~
         {config} (table)  Configuration.
 
+    Fields: ~
+        {query}    (string)   Query to be parsed.
+        {captures} (table)    Keys: highlight, mark, repeat_mark. Each key
+                              defines what highlight options and mark to use
+                              for the matching capture.
+        {enabled}  (boolean)  Defines if himarkdown should be enabled by
+                              default.
+
 
 M.clear()                                                          *M.clear()*
     Clear namespace.
