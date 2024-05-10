@@ -1,3 +1,19 @@
+---@tag himarkdown.nvim
+---@config { ["name"] = "INTRODUCTION" }
+
+---@brief [[
+--- Himarkdown.nvim is a plugin to decorate headers, dash, code block and quote on markdown file.
+--- It adds highlights and changes markings on buffer. It depends on 'nvim-treesitter/nvim-treesitter'.
+---
+--- The plugin logic is as simple as possible. The 'query' and 'captures' are two keys in config that has strong relation.
+--- The 'query' is a treesitter query that captures needed parts. Names of captures in the query should match with
+--- the keys of 'captures'.
+--- Basically this plugin goes through 'captures' then creates highlight groups named with prefix the "Himarkdown"
+--- followed by the each keys of 'captures'. Afterwards it links captured elements by from 'query' to related
+--- highlight definition under each key of 'captures'. If 'mark' exists then it places the mark and if 'repeat_mark' is provided,
+--- it repeats the 'mark' that many times.
+---@brief ]]
+
 local M = {}
 
 local vim_ts = require "vim.treesitter"
@@ -76,6 +92,11 @@ local register = function(buffer)
   })
 end
 
+--- Setup function to be run by user. Adds autocmd and sets up highlight groups.
+---@param config table: Configuration.
+---@filed query string: query to be parsed.
+---@filed captures table: each key defines what highlight options and mark to use for the matching capture.
+---@filed enabled boolean: defines if himarkdown should be enabled by default.
 M.setup = function(config)
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
   parsed_query = parse_query(M.config.query)
@@ -91,20 +112,21 @@ M.setup = function(config)
   end
 end
 
--- Clear namespace
+--- Clear namespace.
 M.clear = function()
   if not M.enabled then return end
   vim.api.nvim_buf_clear_namespace(0, M.namespace, 0, -1)
 end
 
--- Disable or enable highlights and marks
+--- Disable or enable highlights and marks.
+--- It first clears then based on enable status redraws.
 M.toggle = function()
   M.clear()
   M.enabled = not M.enabled
   M.redraw()
 end
 
--- Check and set highlights and marks on buffer
+--- Check and set highlights and marks on buffer by setting extmarks.
 M.redraw = function()
   if not M.enabled then return end
   if not parsed_query then return end
@@ -116,12 +138,12 @@ M.redraw = function()
   if not is_ok then return end
 
   local tree = parser:parse()
-  for pattern, match, metadata in parsed_query:iter_matches(tree[1]:root(), 0) do
+  for _, match, metadata in parsed_query:iter_matches(tree[1]:root(), 0) do
     for id, node in pairs(match) do
       local capture = parsed_query.captures[id]
 
-      local start_row, start_column, end_row, end_column =
-          unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
+      local start_row, _, end_row, end_column =
+        unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
 
       local capture_config = M.config.captures[capture]
       local hl_group = prefix .. capture
