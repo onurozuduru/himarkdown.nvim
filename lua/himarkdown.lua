@@ -14,6 +14,11 @@
 --- it repeats the 'mark' that many times.
 ---@brief ]]
 
+if vim.fn.has "nvim-0.9.5" ~= 1 then
+  vim.api.nvim_err_writeln "himarkdown.nvim requires neovim v0.9.5 or higher!"
+  return
+end
+
 local M = {}
 
 local vim_ts = require "vim.treesitter"
@@ -143,7 +148,7 @@ M.redraw = function()
       local capture = parsed_query.captures[id]
 
       local start_row, _, end_row, end_column =
-        unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
+          unpack(vim.tbl_extend("force", { node:range() }, (metadata[id] or {}).range or {}))
 
       local capture_config = M.config.captures[capture]
       local hl_group = prefix .. capture

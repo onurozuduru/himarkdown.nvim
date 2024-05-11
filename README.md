@@ -7,7 +7,7 @@ It changes markings and adds highlights on buffer.
 
 ![himarkdown](https://github.com/onurozuduru/himarkdown.nvim/assets/2547436/e9db423a-cfce-4095-9f71-e69671545088)
 
-## Dependencies
+## Requirements
 
 - [Neovim 0.9.5](https://github.com/neovim/neovim/releases/tag/v0.9.5) or higher.
 - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter).
@@ -97,7 +97,7 @@ require('himarkdown').setup({
 - [x] Add install section to `README.md`
 - [x] Add screenshot to `README.md`
 - [x] Clean up code
-- [ ] Add version check for Neovim 0.9.5
+- [x] Add version check for Neovim 0.9.5
 - [ ] Add tests
 - [ ] Add Github actions to run tests
 - [ ] Add Github actions to auto format
