@@ -2,9 +2,13 @@ name: Generate docs
 # trying to use the same approach as: https://github.com/nvim-telescope/telescope.nvim/blob/master/.github/workflows/docgen.yml
 on:
   push:
-    branches: [ master ]
+    branches: [ "master" ]
+    paths:
+      - 'lua/**'
   pull_request:
-    branches: [ master ]
+    branches: [ "master" ]
+    paths:
+      - 'lua/**'
 
 jobs:
   build-sources:
