@@ -91,6 +91,18 @@ require('himarkdown').setup({
 }
 ```
 
+#### Example keymap
+
+```lua
+{
+  "onurozuduru/himarkdown.nvim",
+  dependencies = "nvim-treesitter/nvim-treesitter",
+  keys = {
+    { "<Leader>m", function() require("himarkdown").toggle() end, desc = "Toggle HiMarkdown" },
+  },
+}
+```
+
 ## TODOs
 
 - [x] Add documentation
