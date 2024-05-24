@@ -97,6 +97,7 @@ require('himarkdown').setup({
 {
   "onurozuduru/himarkdown.nvim",
   dependencies = "nvim-treesitter/nvim-treesitter",
+  lazy = false,
   keys = {
     { "<Leader>m", function() require("himarkdown").toggle() end, desc = "Toggle HiMarkdown" },
   },
